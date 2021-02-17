@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a3e7503e2544a4387bdcbbfb7de572, type: 3}
+  m_Name: Config
+  m_EditorClassIdentifier: 
+  _floorPrefab: {fileID: 1079447033681860, guid: b5bbd85c42f75ab4e88a9575bc5b5040, type: 3}
+  _wallPrefab: {fileID: 1063720436450340, guid: fdec2343e28e33541bc788a20ed6fa4a, type: 3}
+  _columnPrefab: {fileID: 1429137394123628, guid: c4966d711f437fe44bbd7d3261a38732, type: 3}
+  _playerPrefab: {fileID: 4020983980232809014, guid: 9fedecbd1aa68924b816f15cb97e611a, type: 3}
+  _itemPrefab: {fileID: 1724972533694550, guid: 63e523ab5d9ce7348b431ae1d689a54d, type: 3}
+  _mazeExitPrefab: {fileID: 100000, guid: ddd95aa4817356645979f7a136313957, type: 3}
+  _algorithm: 0
+  _fullRandom: 1
+  _randomSeed: 12345
+  _mazeLevelsConfigList:
+  - _rowsCount: 5
+    _columnsCount: 5
+    _cellWidth: 4
+    _cellHeight: 4
+    _playerSpawnPoint: {x: 0, y: 0, z: 0}
+    _mazeExitSpawnPoint: {x: 16, y: 0, z: 16}
+    _timer: 60
+    _itemsCount: 8
+  - _rowsCount: 6
+    _columnsCount: 6
+    _cellWidth: 4
+    _cellHeight: 4
+    _playerSpawnPoint: {x: 20, y: 0, z: 0}
+    _mazeExitSpawnPoint: {x: 0, y: 0, z: 20}
+    _timer: 70
+    _itemsCount: 10
+  - _rowsCount: 7
+    _columnsCount: 7
+    _cellWidth: 4
+    _cellHeight: 4
+    _playerSpawnPoint: {x: 0, y: 0, z: 0}
+    _mazeExitSpawnPoint: {x: 24, y: 0, z: 12}
+    _timer: 80
+    _itemsCount: 12
+  - _rowsCount: 8
+    _columnsCount: 8
+    _cellWidth: 4
+    _cellHeight: 4
+    _playerSpawnPoint: {x: 12, y: 0, z: 0}
+    _mazeExitSpawnPoint: {x: 4, y: 0, z: 20}
+    _timer: 90
+    _itemsCount: 14
