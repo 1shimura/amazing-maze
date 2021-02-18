@@ -1,4 +1,5 @@
-﻿using Client.Actor;
+﻿using System;
+using Client.Actor;
 using Client.Managers;
 using UnityEngine;
 
@@ -81,8 +82,8 @@ namespace Client.Abilities
         {
             var movement = transform.forward * (_movementInputValue * _movementSpeed * Time.deltaTime);
             var newPosition = _rigidbody.position + movement;
-
-            var posChanged = _prevMovement != newPosition;
+            
+            var posChanged = Vector3.Distance(_prevMovement, newPosition) > 0.01f;
 
             if (_hasAnimation && _isAnimationRunning != posChanged)
             {

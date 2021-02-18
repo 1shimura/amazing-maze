@@ -1,6 +1,8 @@
-﻿namespace Client.Factory
+﻿using System;
+
+namespace Client.Factory
 {
     public interface IFactory<T> {
-        T Create();
+        void Create(Action<T> onComplete);
     }
 }

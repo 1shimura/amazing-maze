@@ -26,6 +26,8 @@ namespace Client.Abilities
         
         public void Execute()
         {
+            if (Actor == null) return;
+            
             (Actor as IResettable)?.Reset();
             _gameManager.ItemFound();
         }

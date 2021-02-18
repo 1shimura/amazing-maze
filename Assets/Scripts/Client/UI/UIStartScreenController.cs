@@ -1,10 +1,11 @@
-﻿using UnityEngine.SceneManagement;
+﻿using Client.Managers;
+using UnityEngine.SceneManagement;
 
 namespace Client.UI
 {
     public class UIStartScreenController
     {
-        public UIStartScreenController(IGameSettingsManager gameSettingsManager, UIStartScreenView startScreenView, int currentSceneIndex, int nextSceneIndex)
+        public UIStartScreenController(IGameSettingsManager gameSettingsManager, UIStartScreenView startScreenView, ILoadingManager loadingManager, int currentSceneIndex, int nextSceneIndex)
         {
             startScreenView.PlayEscapeFromMazeButton.onClick.AddListener(() =>
             {
@@ -21,8 +22,8 @@ namespace Client.UI
 
             void LoadNextScene()
             {
-                SceneManager.LoadSceneAsync(nextSceneIndex, LoadSceneMode.Additive);
-                SceneManager.UnloadSceneAsync(currentSceneIndex);
+                loadingManager.LoadSceneAsync(nextSceneIndex, LoadSceneMode.Additive);
+                loadingManager.UnloadSceneAsync(currentSceneIndex);
             }
         }
     }

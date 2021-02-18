@@ -29,27 +29,32 @@ namespace Client.Managers
 
         private List<IActor> _mazeAttributes = new List<IActor>();
 
-        public void Initialize(IGameSettingsManager gameSettingsManager, CinemachineVirtualCamera mainCamera)
+        public void Initialize(ILoadingManager loadingManager, IGameSettingsManager gameSettingsManager,
+            CinemachineVirtualCamera mainCamera)
         {
             _gameSettingsManager = gameSettingsManager;
             var gameConfig = _gameSettingsManager.GameConfig;
-
-            _player = Object.Instantiate(gameConfig.PlayerPrefab).GetComponent<IActor>();
-            _mazeCreator = new MazeCreator(_gameSettingsManager.GameConfig);
-            _player.Initialize(this);
-
-            _mainCamera = mainCamera;
-            _mainCamera.Follow = _player.Transform;
-
-            var fpvCamera = _player.Abilities.Find(ability => ability is AbilityFPV) as AbilityFPV;
-            if (fpvCamera != null)
+            
+            _mazeCreator = new MazeCreator(loadingManager, _gameSettingsManager.GameConfig);
+            
+            loadingManager.SpawnPrefab(gameConfig.PlayerAssetRef, loadedPlayer =>
             {
-                _fpvCamera = fpvCamera.FpvCamera;
-            }
+                _player = loadedPlayer.GetComponent<IActor>();
+                _player.Initialize(this);
 
-            if (_player == null || !gameConfig.MazeLevelsConfigList.Any()) return;
+                _mainCamera = mainCamera;
+                _mainCamera.Follow = _player.Transform;
 
-            StartLevel(0);
+                var fpvCamera = _player.Abilities.Find(ability => ability is AbilityFPV) as AbilityFPV;
+                if (fpvCamera != null)
+                {
+                    _fpvCamera = fpvCamera.FpvCamera;
+                }
+            
+                if (_player == null || !gameConfig.MazeLevelsConfigList.Any()) return;
+
+                StartLevel(0);
+            });
         }
 
         public void ItemFound()
@@ -101,25 +106,28 @@ namespace Client.Managers
         private void StartLevel(int level)
         {
             _currentLevelIndex = level;
-            _mazeCreator.CreateNewMaze(level, _gameSettingsManager.CurrentGameMode, out _mazeAttributes);
-
-            _player.PrepareForNewLevel(_gameSettingsManager.GameConfig.MazeLevelsConfigList[level].PlayerSpawnPoint);
-
-            foreach (var mazeAttribute in _mazeAttributes)
+            _mazeCreator.CreateNewMaze(level, _gameSettingsManager.CurrentGameMode, mazeAttributes =>
             {
-                mazeAttribute.Initialize(this);
+                _mazeAttributes = mazeAttributes;
+                
+                _player.PrepareForNewLevel(_gameSettingsManager.GameConfig.MazeLevelsConfigList[level].PlayerSpawnPoint);
 
-                if (_gameSettingsManager.CurrentGameMode == GameMode.EscapeFromMaze)
+                foreach (var mazeAttribute in _mazeAttributes)
                 {
-                    mazeAttribute.PrepareForNewLevel(_gameSettingsManager.GameConfig.MazeLevelsConfigList[level]
-                        .MazeExitSpawnPoint);
+                    mazeAttribute.Initialize(this);
+
+                    if (_gameSettingsManager.CurrentGameMode == GameMode.EscapeFromMaze)
+                    {
+                        mazeAttribute.PrepareForNewLevel(_gameSettingsManager.GameConfig.MazeLevelsConfigList[level]
+                            .MazeExitSpawnPoint);
+                    }
                 }
-            }
 
-            ItemsFound = 0;
+                ItemsFound = 0;
 
-            CurrentLevel = level;
-            OnNewLevelStarted?.Invoke(CurrentLevel);
+                CurrentLevel = level;
+                OnNewLevelStarted?.Invoke(CurrentLevel);
+            });
         }
 
         private void ResetActors()

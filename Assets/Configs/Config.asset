@@ -12,12 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a3e7503e2544a4387bdcbbfb7de572, type: 3}
   m_Name: Config
   m_EditorClassIdentifier: 
-  _floorPrefab: {fileID: 1079447033681860, guid: b5bbd85c42f75ab4e88a9575bc5b5040, type: 3}
-  _wallPrefab: {fileID: 1063720436450340, guid: fdec2343e28e33541bc788a20ed6fa4a, type: 3}
-  _columnPrefab: {fileID: 1429137394123628, guid: c4966d711f437fe44bbd7d3261a38732, type: 3}
-  _playerPrefab: {fileID: 4020983980232809014, guid: 9fedecbd1aa68924b816f15cb97e611a, type: 3}
-  _itemPrefab: {fileID: 1724972533694550, guid: 63e523ab5d9ce7348b431ae1d689a54d, type: 3}
-  _mazeExitPrefab: {fileID: 100000, guid: ddd95aa4817356645979f7a136313957, type: 3}
+  _floorAssetRef:
+    m_AssetGUID: b5bbd85c42f75ab4e88a9575bc5b5040
+    m_SubObjectName: 
+    m_SubObjectType: 
+  _wallAssetRef:
+    m_AssetGUID: fdec2343e28e33541bc788a20ed6fa4a
+    m_SubObjectName: 
+    m_SubObjectType: 
+  _columnAssetRef:
+    m_AssetGUID: c4966d711f437fe44bbd7d3261a38732
+    m_SubObjectName: 
+    m_SubObjectType: 
+  _playerAssetRef:
+    m_AssetGUID: 9fedecbd1aa68924b816f15cb97e611a
+    m_SubObjectName: 
+    m_SubObjectType: 
+  _itemAssetRef:
+    m_AssetGUID: 63e523ab5d9ce7348b431ae1d689a54d
+    m_SubObjectName: 
+    m_SubObjectType: 
+  _mazeExitAssetRef:
+    m_AssetGUID: ddd95aa4817356645979f7a136313957
+    m_SubObjectName: 
+    m_SubObjectType: 
   _algorithm: 0
   _fullRandom: 1
   _randomSeed: 12345

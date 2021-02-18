@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Client.Factory;
@@ -9,7 +10,7 @@ namespace Client
     {
         public List<T> Members = new List<T>();
         public HashSet<T> Unavailable = new HashSet<T>();
-        
+
         private IFactory<T> _factory;
 
         public Pool(IFactory<T> factory, int poolSize = 0)
@@ -18,22 +19,24 @@ namespace Client
 
             for (var i = 0; i < poolSize; i++)
             {
-                Create();
+                Create(null);
             }
         }
 
-        public T Allocate()
+        public void Allocate(Action<T> onComplete)
         {
             foreach (var item in Members.Where(item => !Unavailable.Contains(item)))
             {
                 Unavailable.Add(item);
                 item.PrewarmSetup();
-                return item;
+                onComplete?.Invoke(item);
             }
 
-            var newMember = Create();
-            Unavailable.Add(newMember);
-            return newMember;
+            Create(item =>
+            {
+                Unavailable.Add(item);
+                onComplete?.Invoke(item);
+            });
         }
 
         public void Release(T member)
@@ -41,22 +44,24 @@ namespace Client
             member.Reset();
             Unavailable.Remove(member);
         }
-        
+
         public void ReleaseAll()
         {
             foreach (var unavailableMember in Unavailable)
             {
                 unavailableMember.Reset();
             }
-            
+
             Unavailable.Clear();
         }
 
-        private T Create()
+        private void Create(Action<T> onCreate)
         {
-            var member = _factory.Create();
-            Members.Add(member);
-            return member;
+            _factory.Create(item =>
+            {
+                Members.Add(item);
+                onCreate?.Invoke(item);
+            });
         }
 
         IEnumerator IEnumerable.GetEnumerator()

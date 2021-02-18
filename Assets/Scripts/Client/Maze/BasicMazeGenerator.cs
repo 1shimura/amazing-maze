@@ -7,7 +7,7 @@ namespace Client.Maze
 {
     public abstract class BasicMazeGenerator
     {
-        //Used to obtain the Row and ColumnPrefab from the private variables 
+        //Used to obtain the Row and ColumnAssetRef from the private variables 
         public int RowCount => _mazeRows;
         public int ColumnCount => _mazeColumns;
 

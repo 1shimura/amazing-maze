@@ -1,26 +1,30 @@
-﻿using UnityEngine;
+﻿using System;
+using Client.Managers;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Client.Factory
 {
     public class PrefabFactory<T> : IFactory<T>
     {
         private GameObject _prefab;
-        private bool _isActive;
 
-        public PrefabFactory(GameObject prefab, bool isActive = true)
+        private AssetReference _prefabAssetReference;
+        private ILoadingManager _loadingManager;
+
+        public PrefabFactory(ILoadingManager loadingManager, AssetReference prefabAssetRef)
         {
-            _prefab = prefab;
-            _isActive = isActive;
+            _loadingManager = loadingManager;
+            _prefabAssetReference = prefabAssetRef;
         }
 
-        public T Create()
+        public void Create(Action<T> onComplete)
         {
-            var tempGameObject = Object.Instantiate(_prefab);
-            var objectOfType = tempGameObject.GetComponent<T>();
-            
-            tempGameObject.SetActive(_isActive);
-
-            return objectOfType;
+            _loadingManager.SpawnPrefab(_prefabAssetReference, go =>
+            {
+                var objectOfType = go.GetComponent<T>();
+                onComplete?.Invoke(objectOfType);
+            });
         }
     }
 }

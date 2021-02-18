@@ -10,8 +10,10 @@ namespace Client.Managers
         Action<int> OnNewLevelStarted { get; set; }
         Action OnGameOver { get; set; }
         Action<int> OnItemFound { get; set; }
-        
-        void Initialize(IGameSettingsManager gameSettings, CinemachineVirtualCamera mainCamera);
+
+        void Initialize(ILoadingManager loadingManager, IGameSettingsManager gameSettings,
+            CinemachineVirtualCamera mainCamera);
+
         void ItemFound();
         void StartNextLevel();
         void GameOver();
